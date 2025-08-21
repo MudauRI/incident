@@ -1,0 +1,12 @@
+{
+  "name": "incident-app",
+  "version": "1.0.0",
+  "description": "Incident reporting application",
+  "scripts": {
+    "start": "npx serve public -p $PORT",
+    "build": "echo 'No build step needed for static files'"
+  },
+  "dependencies": {
+    "serve": "^14.0.0"
+  }
+}
