@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Incident Reporting System</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>
+        <img src="assets/shield.png" alt="Shield Icon" class="logo-icon" data-tooltip="Incident System Logo" />
+        Incident Reporting System
+      </h1>
+      <p>Report security incidents quickly and efficiently. Our automated system ensures rapid response from the IT security team.</p>
+    </header>
+
+    <div class="reporting-section">
+      <div class="card">
+        <h2>
+          <img src="assets/list.png" alt="Report Icon" class="icon-img" data-tooltip="Submit a report" />
+          Quick Incident Report
+        </h2>
+        <form id="incidentForm">
+          <div class="form-group">
+            <label for="incidentType">Incident Type</label>
+            <select id="incidentType" class="form-control" required>
+              <option value="">Select incident type...</option>
+              <option value="suspicious_email">Suspicious Email</option>
+              <option value="malware">Malware Detection</option>
+              <option value="phishing">Phishing Attempt</option>
+              <option value="data_breach">Data Breach</option>
+              <option value="unauthorized_access">Unauthorized Access</option>
+              <option value="system_compromise">System Compromise</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="reporterName">Reporter Name</label>
+            <input type="text" id="reporterName" class="form-control" placeholder="Your full name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="reporterEmail">Email Address</label>
+            <input type="email" id="reporterEmail" class="form-control" placeholder="your.email@company.com" required />
+          </div>
+
+          <div class="form-group">
+            <label>Priority Level</label>
+            <div class="priority-selector">
+              <div class="priority-option priority-low tooltip" data-priority="low" data-tooltip="Low Priority">
+                <img src="assets/low.png" alt="Low Priority" class="icon-img" />
+              </div>
+              <div class="priority-option priority-medium selected tooltip" data-priority="medium" data-tooltip="Medium Priority">
+                <img src="assets/mid.png" alt="Medium Priority" class="icon-img" /> Medium
+              </div>
+              <div class="priority-option priority-high tooltip" data-priority="high" data-tooltip="High Priority">
+                <img src="assets/high.png" alt="High Priority" class="icon-img" /> High
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Incident Description</label>
+            <textarea id="description" class="form-control" placeholder="Please provide detailed information about the incident..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="affectedSystems">Affected Systems/Applications</label>
+            <input type="text" id="affectedSystems" class="form-control" placeholder="e.g., Email server, HR database, etc." />
+          </div>
+
+          <button type="submit" class="btn" id="submitBtn">
+            <span class="btn-text">Submit Report</span>
+            <div class="spinner" id="submitSpinner" style="display: none;"></div>
+          </button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>
+          <img src="assets/upload-files.png" alt="Upload Icon" class="icon-img tooltip" data-tooltip="Attach evidence" />
+          File Upload
+        </h2>
+        <p style="margin-bottom: 1.5rem; color: #b8bcc8;">Upload suspicious emails, screenshots, or related files</p>
+
+        <div class="file-upload-area" id="fileUploadArea">
+          <div class="file-upload-icon">
+            <img src="assets/upload-file.png" alt="Upload Files Icon" />
+          </div>
+          <p><strong>Click to browse</strong> or drag and drop files here</p>
+          <p style="font-size: 0.9rem; color: #9ca3af; margin-top: 0.5rem;">
+            Supported formats: .eml, .msg, .pdf, .png, .jpg, .txt (Max 10MB each)
+          </p>
+        </div>
+        <input type="file" id="fileInput" multiple style="display: none;" accept=".eml,.msg,.pdf,.png,.jpg,.jpeg,.txt,.doc,.docx" />
+        <div class="uploaded-files" id="uploadedFiles"></div>
+
+        <div style="margin-top: 1.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="clearFiles()">
+            Clear All Files
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="ticketPreview" style="display: none;">
+      <h2>
+        <img src="assets/ticket-icon.png" alt="Ticket Icon" class="icon-img tooltip" data-tooltip="Generated ticket" />
+        Generated Ticket
+      </h2>
+      <div class="ticket-preview">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <div><strong>Ticket ID:</strong> <span class="ticket-id" id="ticketId"></span></div>
+          <div class="status-indicator status-pending">⏳ Pending Review</div>
+        </div>
+        <div id="ticketDetails"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module" src="app.js"></script>
+  <script>
+    // Form Submit Loading Spinner
+    const form = document.getElementById("incidentForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const spinner = document.getElementById("submitSpinner");
+    const btnText = submitBtn.querySelector(".btn-text");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      btnText.style.display = "none";
+      spinner.style.display = "block";
+      submitBtn.disabled = true;
+
+      // Simulate delay for demo
+      setTimeout(() => {
+        btnText.style.display = "inline";
+        spinner.style.display = "none";
+        submitBtn.disabled = false;
+        form.reset();
+        // Show a toast or success message...
+      }, 2000);
+    });
+
+    // Tooltip behavior
+    document.querySelectorAll(".tooltip").forEach(el => {
+      const tooltip = document.createElement("span");
+      tooltip.className = "tooltip-text";
+      tooltip.innerText = el.dataset.tooltip;
+      el.appendChild(tooltip);
+    });
+  </script>
+</body>
+</html>
